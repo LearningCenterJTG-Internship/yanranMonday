@@ -4,13 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
-use monday\Client\Auth\OAuth\ApiException;
 use Illuminate\Support\Facades\Crypt;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Config;
-use \App\Models\MondayToken;
-use App\Models\Contact;
-use App\Models\User;
+use App\Models\MondayToken;
+
 
 class MondayAuthController extends Controller
 {
@@ -40,12 +36,9 @@ class MondayAuthController extends Controller
     # callback to get token
     public function handleMondayCallback(Request $request)
     {
-        \Log::info("??????");
         $http = new Client(['verify' => false]);
         $code = $request->query('code');
         $state = $request->query('state');
-
-        \Log::info("this is: ", $request->code);
 
         $response = $http->post('https://auth.monday.com/oauth2/token', [
             'form_params' => [
@@ -58,27 +51,20 @@ class MondayAuthController extends Controller
         ]);
 
         $token = json_decode((string) $response->getBody(), true)['access_token'];
+    
 
-        echo($token);
-        /*$refresh_token = json_decode((string) $response->getBody(), true)['refresh_token'];
-        $expires_in = json_decode((string) $response->getBody(), true)['expires_in'];
-        $expires_at = Carbon::now()->addSeconds($expires_in);
-
-        if ($token && $refresh_token) {
+        if ($token) {
 
             $encyptedToken = Crypt::encrypt($token);
-            $encyptedRefresh = Crypt::encrypt($refresh_token);
             
             $mondayToken = new MondayToken();
             $mondayToken->access_token = $encyptedToken;
-            $mondayToken->refresh_token = $encyptedRefresh;
-            $mondayToken->expires_at = $expires_at;
             $mondayToken->save();
 
             echo 'Success: Access token obtained.';
         } else {
             echo 'Error: Failed to obtain access token.';
-        }*/
+        }
         
     }
 }

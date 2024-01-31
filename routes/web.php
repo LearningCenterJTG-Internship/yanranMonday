@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MondayAuthController;
-use App\Http\Controllers\testController;
+use App\Http\Controllers\boardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,11 +21,11 @@ Route::get('/', function () {
 
 # receive token
 Route::get('/monday/auth', [MondayAuthController::class, 'redirectToMonday']);
-Route::get('/monday/callback', [MondayAuthController::class, 'handleMondayCallback']);
+Route::get('/monday/oauth/callback', [MondayAuthController::class, 'handleMondayCallback']);
 
 # boards
-Route::post('/retrieve-board', [testController::class, 'retreiveBoards']);
-Route::post('/create-board', [testController::class, 'createBoard']);
-Route::post('/duplicate-board', [testController::class, 'duplicateBoard']);
-Route::post('/update-board', [testController::class, 'updateBoard']);
-Route::post('/delete-board', [testController::class, 'deleteBoard']);
+Route::post('/retrieve-board', [boardController::class, 'retreiveBoards']);
+Route::post('/create-board', [boardController::class, 'createBoard']);
+Route::post('/duplicate-board', [boardController::class, 'duplicateBoard']);
+Route::post('/update-board', [boardController::class, 'updateBoard']);
+Route::post('/delete-board', [boardController::class, 'deleteBoard']);

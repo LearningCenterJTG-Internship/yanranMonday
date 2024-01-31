@@ -4,13 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class testController extends Controller
+class boardController extends Controller
 {
 
     public function retreiveBoards()
     {
         $token = config("services.monday.token");
-        \Log::info($token);
         $apiUrl = "https://api.monday.com/v2";
         $headers = ["Content-Type: application/json", "Authorization: " . $token];
 

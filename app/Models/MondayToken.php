@@ -7,5 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class MondayToken extends Model
 {
-    use HasFactory;
+    protected $fillable = [
+        'access_token',
+    ];
 }
