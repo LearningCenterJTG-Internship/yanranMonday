@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MondayAuthController;
 use App\Http\Controllers\boardController;
+use App\Http\Controllers\webhookController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +30,6 @@ Route::post('/create-board', [boardController::class, 'createBoard']);
 Route::post('/duplicate-board', [boardController::class, 'duplicateBoard']);
 Route::post('/update-board', [boardController::class, 'updateBoard']);
 Route::post('/delete-board', [boardController::class, 'deleteBoard']);
+
+# webhook
+Route::post('/yanranintern/webhook', [webhookController::class, 'handleWebhookChallenge']);

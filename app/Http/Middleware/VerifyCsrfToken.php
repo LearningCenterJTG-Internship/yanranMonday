@@ -16,6 +16,7 @@ class VerifyCsrfToken extends Middleware
         "create-board",
         "duplicate-board",
         "update-board",
-        "delete-board"
+        "delete-board",
+        "/yanranintern/webhook"
     ];
 }
