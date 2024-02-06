@@ -8,9 +8,30 @@ class webhookController extends Controller
 {
     public function handleWebhookChallenge(Request $request)
     {
-        $token = config("services.monday.token");
-        $challenge = $request->json('challenge');
+        $eventType = $request->input('event')['type'];
+        \Log::info($eventType);
+        switch ($eventType) {
+            case 'create_pulse':
+                $this->handleItemCreate($request);
+                break;
+            case 'create_column':
+                $this->handleColumnCreate($request);
 
-        return response()->json(['challenge' => $challenge]);
+            default:
+                break;
+        }
+
+        return response()->json(['success' => true]);
     }
+
+    private function handleItemCreate(Request $request)
+    {
+        \Log::info($request);
+    }
+
+    private function handleColumnCreate(Request $request)
+    {
+        \Log::info($request);
+    }
+
 }
