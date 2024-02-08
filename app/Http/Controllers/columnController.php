@@ -6,15 +6,22 @@ use Illuminate\Http\Request;
 
 class columnController extends Controller
 {
+    protected $token;
+    protected $apiUrl;
+
+    public function __construct()
+    {
+        $this->token = config("services.monday.token");
+        $this->apiUrl = "https://api.monday.com/v2";
+    }
+
     public function retrieveColumns()
     {
-        $token = config("services.monday.token");
-        $apiUrl = "https://api.monday.com/v2";
-        $headers = ["Content-Type: application/json", "Authorization: " . $token];
+        $headers = ["Content-Type: application/json", "Authorization: " . $this->token];
 
         $query = "{ columns { id name } }";
 
-        $data = @file_get_contents($apiUrl, false, stream_context_create([
+        $data = @file_get_contents($this->apiUrl, false, stream_context_create([
             "http" => [
             "method" => "POST",
             "header" => $headers,
@@ -28,9 +35,7 @@ class columnController extends Controller
 
     public function createColumn()
     {
-        $token = config("services.monday.token");
-        $apiUrl = "https://api.monday.com/v2";
-        $headers = ["Content-Type: application/json", "Authorization: " . $token];
+        $headers = ["Content-Type: application/json", "Authorization: " . $this->token];
 
         $query = "mutation {
             create_column(
@@ -44,7 +49,7 @@ class columnController extends Controller
             }
         }";
           
-        $data = @file_get_contents($apiUrl, false, stream_context_create([
+        $data = @file_get_contents($this->apiUrl, false, stream_context_create([
             "http" => [
             "method" => "POST",
             "header" => $headers,
@@ -58,8 +63,6 @@ class columnController extends Controller
 
     public function updateColumn(Request $request)
     {
-        $apiUrl = "https://api.monday.com/v2";
-        $token = config("services.monday.token");
         $board_id = $request->board_id;
         $item_id = $request->item_id;
 
@@ -70,10 +73,10 @@ class columnController extends Controller
         }";
         $headers = [
             'Content-Type: application/json',
-            'Authorization: ' . $token
+            'Authorization: ' . $this->token
         ];
 
-        $data = @file_get_contents($apiUrl, false, stream_context_create([
+        $data = @file_get_contents($this->apiUrl, false, stream_context_create([
             'http' => [
                 'method'  => 'POST',
                 'header'  => $headers,
@@ -90,18 +93,39 @@ class columnController extends Controller
 
     public function delete_column(Request $request)
     {
-        $apiUrl = "https://api.monday.com/v2";
-        $token = config("services.monday.token");
         $board_id = $request->board_id;
 
         $query = "mutation { delete_board (board_id: $board_id) { id }}";
 
         $headers = [
             'Content-Type: application/json',
-            'Authorization: ' . $token
+            'Authorization: ' . $this->token
         ];
 
-        $data = @file_get_contents($apiUrl, false, stream_context_create([
+        $data = @file_get_contents($this->apiUrl, false, stream_context_create([
+            'http' => [
+                'method'  => 'POST',
+                'header'  => $headers,
+                'content' => json_encode(['query' => $query]),
+            ]
+        ]));
+
+        $responseContent = json_decode($data, true);
+
+        echo json_encode($responseContent);
+    }
+
+    public function column_value(Request $request)
+    {
+
+        $query = $query = "query { boards (ids: 1234567890) { items (ids: 9876543210) { column_values { value text }}}}";
+
+        $headers = [
+            'Content-Type: application/json',
+            'Authorization: ' . $this->token
+        ];
+
+        $data = @file_get_contents($this->apiUrl, false, stream_context_create([
             'http' => [
                 'method'  => 'POST',
                 'header'  => $headers,
