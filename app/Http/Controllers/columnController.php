@@ -118,7 +118,7 @@ class columnController extends Controller
     public function column_value(Request $request)
     {
 
-        $query = $query = "query { boards (ids: 1234567890) { items (ids: 9876543210) { column_values { value text }}}}";
+        $query = "query { boards (ids: 1234567890) { items (ids: 9876543210) { column_values { value text }}}}";
 
         $headers = [
             'Content-Type: application/json',

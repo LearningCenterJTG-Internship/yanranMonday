@@ -51,9 +51,10 @@ class MondayAuthController extends Controller
         ]);
 
         $token = json_decode((string) $response->getBody(), true)['access_token'];
+        echo 'Success: Access token obtained.';
     
 
-        if ($token) {
+        /*if ($token) {
 
             $encyptedToken = Crypt::encrypt($token);
             
@@ -64,7 +65,7 @@ class MondayAuthController extends Controller
             echo 'Success: Access token obtained.';
         } else {
             echo 'Error: Failed to obtain access token.';
-        }
+        }*/
         
     }
 }

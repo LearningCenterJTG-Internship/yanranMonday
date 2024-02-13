@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MondayAuthController;
 use App\Http\Controllers\boardController;
 use App\Http\Controllers\webhookController;
+use App\Http\Controllers\MondayBasicController;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,3 +34,5 @@ Route::post('/delete-board', [boardController::class, 'deleteBoard']);
 
 # webhook
 Route::post('/yanranintern/webhook', [webhookController::class, 'handleWebhookChallenge']);
+
+Route::get('/yanranintern/account', [MondayBasicController::class, 'getUsers']);
