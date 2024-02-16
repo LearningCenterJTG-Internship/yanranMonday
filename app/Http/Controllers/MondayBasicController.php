@@ -38,31 +38,10 @@ class MondayBasicController extends Controller
     {
         $query = 'query { users { id name } }';
         $response = $this->dealWithQuery($query);
+        \Log::info("This is user response: ", $response);
         return $response;
     }
-
-    public function sendNotifications(Request $request)
-    {
-        $user_id = $request->input('user_id');
-        $item_id = $request->input('item_id');
-
-        $mutation = "
-          mutation {
-            create_notification(
-              text: \"I've got a notification for you!\",
-              user_id: {$user_id},
-              target_id: {$item_id},
-              target_type: Project,
-              internal: true
-            ) { 
-              id 
-            }
-          }
-        ";
-
-        $response = $this->dealWithQuery($mutation);
-        return $response;
-    }
+    
 
     public function setSettings(Request $request)
     {

@@ -5,6 +5,7 @@ use App\Http\Controllers\MondayAuthController;
 use App\Http\Controllers\boardController;
 use App\Http\Controllers\webhookController;
 use App\Http\Controllers\MondayBasicController;
+use App\Http\Controllers\notificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -36,3 +37,5 @@ Route::post('/delete-board', [boardController::class, 'deleteBoard']);
 Route::post('/yanranintern/webhook', [webhookController::class, 'handleWebhookChallenge']);
 
 Route::get('/yanranintern/account', [MondayBasicController::class, 'getUsers']);
+
+Route::get('/yanranintern/notifications', [notificationController::class, 'sendNotification']);
